@@ -1,7 +1,7 @@
 # Ajaia Technical Project Manager Assessment
 ### Vivek Nikam | Dispatch Exception Triage, Corrigan Peak Logistics
 
-**Video:** `[PASTE VIDEO LINK HERE]`
+**Video:** `[[PASTE VIDEO LINK HERE]](https://drive.google.com/file/d/1zJfpGH5xc1Fn4zMhI9j_PU1Zsu2w7ja7/view?usp=sharing)`
 **Repository:** https://github.com/VivekNikam21/Ajaia-Technical-Project-Manager-Assessment
 **Build file:** `normalize_exceptions.py`, Python 3, standard library only, no install step. Full source also inlined in Appendix A.
 **Cleaned output:** `exceptions_clean.csv`. Also inlined in Appendix B.
