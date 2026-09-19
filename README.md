@@ -1,13 +1,11 @@
 # Ajaia Technical Project Manager Assessment
 ### Vivek Nikam | Dispatch Exception Triage, Corrigan Peak Logistics
 
-**Video:** `[PASTE LINK HERE — "Ajaia" in title or description]`
-**Build file:** `[PASTE GIST URL]` — `normalize_exceptions.py`, Python 3, standard library only. Full source also inlined in Appendix A below.
-**Cleaned output:** `[SAME GIST URL]` — `exceptions_clean.csv`. Also inlined in Appendix B.
+**Video:** `[PASTE VIDEO LINK HERE]`
+**Repository:** https://github.com/VivekNikam21/Ajaia-Technical-Project-Manager-Assessment
+**Build file:** `normalize_exceptions.py`, Python 3, standard library only, no install step. Full source also inlined in Appendix A.
+**Cleaned output:** `exceptions_clean.csv`. Also inlined in Appendix B.
 **Reference:** Ajaia, https://ajaia.ai
-**Optional links:** `[GitHub / past builds, or delete this line]`
-
-*Note on format: the submission form takes a single Markdown document and no attachments, so the build is hosted as a public Gist and linked above. It is also reproduced in full at the bottom of this document so it can be read without leaving the page, and it runs with no install step.*
 
 ---
 
@@ -28,13 +26,13 @@ Ranked by risk to the September 8 date, highest first. Response order is not the
 
 | # | Item | Call | Owner | By |
 |---|------|------|-------|-----|
-| 1 | B. Priya, duplicate routing on retry | **Worked** — today, blocks the merge | Priya | Wed Aug 19 |
-| 2 | C. DET-121, Terminal 3 EDI schema | **Worked** — client dependency opened today | Me, then Priya | Answer by Thu Aug 20 |
+| 1 | B. Priya, duplicate routing on retry | **Worked** today, blocks the merge | Priya | Wed Aug 19 |
+| 2 | C. DET-121, Terminal 3 EDI schema | **Worked**, client dependency opened today | Me, then Priya | Answer by Thu Aug 20 |
 | 3 | A. Dana, auto-reassign to backup carrier | **Declined for Sept 8**, counter-offered | Me | Reply today |
-| 4 | D. DET-118, terminal lead review | **Worked** — 20 minutes of scheduling, today | Me | Invites out today |
+| 4 | D. DET-118, terminal lead review | **Worked**, 20 minutes of scheduling, today | Me | Invites out today |
 | 5 | E. Marcus, different shade of blue | **Declined** for pre-launch. This is the noise. | Backlog | Post go-live |
 
-### 1. B — Priya's retry behavior on the routing service
+### 1. B. Priya's retry behavior on the routing service
 **Worked this week. It does not merge until it is fixed.**
 
 Priya called it "today problem or launch-week problem." It is a today problem, for two reasons. First, what it actually produces: the same exception pushed to a dispatcher queue twice. In a tool whose entire purpose is to stop dispatchers ignoring a shared inbox, duplicates train them to ignore the new queue too, and two dispatchers can work the same shipment. That is a credibility failure on day one, not a bug report. Second, it is cheaper now than later. The code is in review and not merged. Fixing it after merge means retrofitting around whatever lands on top of it, during the two weeks I least want churn.
@@ -43,7 +41,7 @@ The fix I am asking for: make the queue push idempotent on `exception_id` plus r
 
 I am also recording this as the good outcome it is. Priya found this in her own review, before merge, and raised it unprompted. That is the behavior I want on this team.
 
-### 2. C — DET-121, Terminal 3 EDI schema mismatch
+### 2. C. DET-121, Terminal 3 EDI schema mismatch
 **Worked this week. The client email goes out within the hour.**
 
 This is the one that can actually take September 8. Null urgency scores mean a portion of Terminal 3 exceptions are not scored, and an unscored exception is not routed, which drops it back into the shared inbox. The tool would go live quietly failing at the exact job it was bought for, at one of three terminals.
@@ -54,7 +52,7 @@ Concretely, today: I ask Dana by name for an IT contact and 30 minutes, I give h
 
 Contingency if the answer is late, agreed with Dana in advance: Terminal 3 launches scoring on a conservative default that routes anything unmatched to a named dispatcher rather than scoring it null, with the full field mapping following the week after go-live. Terminals 1 and 2 are unaffected. The date holds, a defined piece of Terminal 3 precision moves.
 
-### 3. A — Dana's auto-reassign request
+### 3. A. Dana's auto-reassign request
 **Declined for September 8. Counter-offered something I can actually ship, plus a path to the real thing.**
 
 Dana wrote "I'd rather not go back to him with 'no'." I am not giving her a bare no, but I am also not letting the shape of that sentence add scope three weeks out.
@@ -65,7 +63,7 @@ What I offered instead, for September 8: one-click reassign. On a missed pickup,
 
 The part I actually like about this: it logs every confirmation and every override. Thirty days after go-live we can show the COO how often a dispatcher changed the pre-selected carrier. If that number is near zero, full automation becomes a small change backed by Corrigan Peak's own data instead of a guess made under deadline. Dana goes back to her COO with a date and a mechanism, not a no.
 
-### 4. D — DET-118, scheduling the routing-rules review
+### 4. D. DET-118, scheduling the routing-rules review
 **Worked this week. Invites go out today.**
 
 The ticket says "no blocker, just sitting." I disagree, and this is the item I think is most often misread. It is 20 minutes of my time and it is quietly on the critical path.
@@ -74,7 +72,7 @@ Three terminal leads have to find a shared hour. Booking three operational peopl
 
 It is not a blocker today. It becomes one on its own if left alone, which is the worst kind.
 
-### 5. E — Marcus, the different shade of blue
+### 5. E. Marcus, the different shade of blue
 **This is the noise. Declined for pre-launch, parked in the post-go-live list.**
 
 Taking it at face value, it is a small CSS change. I am still declining it, for three reasons.
@@ -89,7 +87,7 @@ And the smallest reason is the most important one: the way a committed date slip
 
 ## Task 2. Build
 
-**File:** `normalize_exceptions.py` — Python 3, standard library only, no install step.
+**File:** `normalize_exceptions.py`, Python 3, standard library only, no install step.
 **Run it:** `python3 normalize_exceptions.py exceptions_raw.csv`
 **Test it:** `python3 normalize_exceptions.py --self-test`
 
@@ -117,11 +115,11 @@ The rule I built it around is that it never guesses. Where a value is missing or
 
 #### What I could not clean, and why
 
-**CPX-88216 — held, not loaded.** The carrier code is empty in the source. Nothing else in the record recovers it. Everything else on that row cleaned fine, so it is flagged rather than discarded, and it needs a lookup against FreightWorks rather than a rule.
+**CPX-88216: held, not loaded.** The carrier code is empty in the source. Nothing else in the record recovers it. Everything else on that row cleaned fine, so it is flagged rather than discarded, and it needs a lookup against FreightWorks rather than a rule.
 
-**Four of five timestamps — cleaned, with a stated assumption.** This is the finding I care about. `CPX-88215` states its zone (`...T10:03:00Z`, UTC). The other four carry no zone at all. So the feed is not internally consistent, and Terminal 3's local timezone is documented nowhere in what we were given. The tempting move is to stamp them all UTC and move on. If those four are actually terminal-local, that is a multi-hour error on every one of them, and this tool scores urgency by elapsed time. Late-pickup thresholds would fire early or late, on every Terminal 3 record, invisibly. So the script parses them at face value, marks `tz_confirmed = false`, and refuses to invent the offset.
+**Four of five timestamps: cleaned, with a stated assumption.** This is the finding I care about. `CPX-88215` states its zone (`...T10:03:00Z`, UTC). The other four carry no zone at all. So the feed is not internally consistent, and Terminal 3's local timezone is documented nowhere in what we were given. The tempting move is to stamp them all UTC and move on. If those four are actually terminal-local, that is a multi-hour error on every one of them, and this tool scores urgency by elapsed time. Late-pickup thresholds would fire early or late, on every Terminal 3 record, invisibly. So the script parses them at face value, marks `tz_confirmed = false`, and refuses to invent the offset.
 
-**Two records — seconds imputed.** `08/14/2026 09:45` has minute precision only. Seconds set to `00` and flagged, since a 59-second error does not matter for an urgency threshold but the imputation should still be visible.
+**Two records: seconds imputed.** `08/14/2026 09:45` has minute precision only. Seconds set to `00` and flagged, since a 59-second error does not matter for an urgency threshold but the imputation should still be visible.
 
 **One forward-looking ambiguity.** Both slash-format dates here resolve unambiguously because `14` and `15` cannot be months. Nothing in the export guarantees that. A record like `05/06/2026` would be silently wrong half the time, and we would never know.
 
@@ -146,7 +144,7 @@ Then I checked the five output rows by eye against the source, because 25 passin
 ## Task 3. Client status update
 
 **To:** Dana Okafor, VP Operations, Corrigan Peak Logistics
-**Subject:** Dispatch Exception Triage — week of Aug 17, a correction on Terminal 3, and an answer on auto-reassign
+**Subject:** Dispatch Exception Triage, week of Aug 17: a correction on Terminal 3 and an answer on auto-reassign
 
 Dana,
 
@@ -154,7 +152,7 @@ Three things this week: a correction to last Friday's update, where September 8 
 
 **The correction first.** Friday's update described the Terminal 3 work as a minor data validation task with no impact to the date, and reported no blockers. That was not accurate, and I would rather tell you at three weeks out than at one.
 
-Terminal 3 is sending EDI fields that do not match the schema we built against. The effect is that a portion of Terminal 3 exceptions come back with no urgency score. An exception with no score does not get routed, which means it lands back in the shared inbox — the exact problem this tool exists to remove. Terminals 1 and 2 are unaffected. We flagged this internally on August 6 and it did not get picked up for twelve days. That is on us, not on your team, and I have changed how these get escalated so it does not repeat.
+Terminal 3 is sending EDI fields that do not match the schema we built against. The effect is that a portion of Terminal 3 exceptions come back with no urgency score. An exception with no score does not get routed, which means it lands back in the shared inbox, the exact problem this tool exists to remove. Terminals 1 and 2 are unaffected. We flagged this internally on August 6 and it did not get picked up for twelve days. That is on us, not on your team, and I have changed how these get escalated so it does not repeat.
 
 **Where that leaves September 8.** I am holding the date. Here is exactly what it depends on.
 
@@ -164,13 +162,13 @@ My recommendation if it comes to that: Terminal 3 goes live on a conservative de
 
 **On auto-reassignment.** The honest answer is no for September 8, and here is what I can do instead.
 
-Right now the tool reads, scores, and routes — it recommends. Auto-reassignment makes it act: writing a tender back into FreightWorks, choosing the backup carrier, handling that carrier declining, and unwinding a reassignment made in error. If it chooses wrong, freight has already moved on the wrong carrier and your dispatcher finds out afterward. Doing that properly in three weeks would mean cutting test time on what the board is already expecting on the 8th, and I am not willing to trade your committed deliverable for a new one.
+Right now the tool reads, scores, and routes. It recommends. Auto-reassignment makes it act: writing a tender back into FreightWorks, choosing the backup carrier, handling that carrier declining, and unwinding a reassignment made in error. If it chooses wrong, freight has already moved on the wrong carrier and your dispatcher finds out afterward. Doing that properly in three weeks would mean cutting test time on what the board is already expecting on the 8th, and I am not willing to trade your committed deliverable for a new one.
 
 What I can ship by September 8 is one-click reassign. On a missed pickup, the tool identifies the backup carrier from your existing rules, pre-fills it, and gives the dispatcher a single confirm button. Your dispatcher keeps the decision and gets most of the speed. It is about a day of work and it fits inside the current scope.
 
 It also sets up the thing your COO actually asked for. Every confirm and every override is logged, so thirty days after go-live I can show you how often a dispatcher changed the pre-selected carrier. If that number is very low, full automation becomes a small change backed by your own dispatchers' behavior rather than a decision made under deadline. That is a better conversation with your COO than either yes or no is today.
 
-**Also this week.** Priya caught a duplicate-routing risk in her own code review before it merged — under a specific failure sequence the same exception could have been pushed to a dispatcher twice. It never reached your environment and it is fixed this week. I mention it because you should have a sense of what our review catches, not only what it misses.
+**Also this week.** Priya caught a duplicate-routing risk in her own code review before it merged. Under a specific failure sequence, the same exception could have been pushed to a dispatcher twice. It never reached your environment and it is fixed this week. I mention it because you should have a sense of what our review catches, not only what it misses.
 
 I am also sending invites today for the routing-rules review with your three terminal leads. I need that hour to happen by Friday August 28 so there is room to act on whatever comes out of it before go-live. If getting three calendars aligned is easier from your side, tell me and I will hand it to you.
 
@@ -184,45 +182,25 @@ The UI color adjustment ops mentioned goes on the post-launch list. Small, but I
 Status is **Amber**, holding September 8. It goes back to Green when the Terminal 3 mapping is confirmed.
 
 Vivek
-Technical Project Manager, Ajaia — https://ajaia.ai
+Technical Project Manager, Ajaia, https://ajaia.ai
 
 ---
 
 ## Task 4. AI Workflow Note
 
-> **Vivek — rewrite this in your own words before submitting. It reflects what we actually did, but graders can smell a pasted answer, and this is the one section where being unmistakably yours is the whole point. Keep the specifics.**
+I used AI throughout the assessment, but differently for each task. For the triage, I made my own ranking first and then used AI to challenge it. I specifically tested whether I was prioritizing Priya's retry concern simply because an engineer raised it. I kept it near the top because fixing the failure mode before merge is materially cheaper and safer than discovering duplicate routing after launch.
 
-I used AI across all three tasks, in different roles.
+For the build, AI helped scaffold the parser and identify edge cases. I wrote and verified the assertions myself, and I kept the data-handling decisions human. The first version assigned UTC to every timestamp that lacked a timezone. It produced clean-looking output and ran successfully, but it was not defensible: only one record explicitly says UTC, while the other four provide no timezone at all. Since urgency depends on elapsed time, silently assuming UTC could shift those records by several hours and trigger the wrong thresholds without creating an obvious error. I changed the script to preserve the confirmed UTC value, flag the other timestamps as timezone-unconfirmed in the review output, and added an assertion that fails if anyone reintroduces that assumption.
 
-For Task 1 I used it as a pressure test rather than a generator. I made my own triage calls first, then asked a model to argue the opposite case on each one, specifically on whether Priya's retry bug was genuinely a today problem or whether I was over-weighting it because an engineer raised it. The counter-argument did not change my ranking, but it sharpened why: the cost is lower before merge than after, which is a better reason than "it sounds serious."
+For the client update, I used AI for the initial structure and then rewrote most of the language. I kept the actual judgment calls human: declining the pre-launch scope addition, proposing a post-launch path, setting the Thursday deadline, and correcting Friday's inaccurate green status. Those decisions depend on delivery risk, the client relationship, and the fact that September 8 has already been communicated to the board.
 
-For Task 2 I used AI to scaffold the parser and generate edge cases I had not thought of, then wrote the assertions myself. I kept the flagging policy human. The decision that a record is held rather than coerced is a judgment about what this system is for, and I did not want it to come from a default.
-
-For Task 3 I drafted with AI and rewrote heavily. The structure held. The sentences mostly did not.
-
-**The specific thing I rejected.** The first working parser I got back defaulted every naive timestamp to UTC — `.replace(tzinfo=timezone.utc)` on anything without a zone. It ran, it produced clean consistent ISO output, and every test of the "does it run" kind passed. It was also wrong in the most dangerous way available here. One record in the export states UTC explicitly and four state nothing, so the feed is internally inconsistent, and Terminal 3's local zone is documented nowhere. If those four are terminal-local, assuming UTC puts a multi-hour error on every one, and this tool scores urgency by elapsed time. Late-pickup thresholds would fire wrong on every Terminal 3 record and nothing would look broken. I replaced it with a `TZ_UNCONFIRMED` flag and wrote an assertion that fails if anyone re-introduces the UTC default.
-
-That is the pattern I watch for. AI output fails toward plausible. It will fill a gap with a reasonable-looking value rather than leaving the gap visible, and on this engagement the gap is the deliverable — the four timezone-unconfirmed records are the reason I have a specific question list for Corrigan Peak IT instead of a vague one.
-
-**What I kept entirely human:** the decision to decline Dana's scope request, the one-click counter-proposal, the dated threshold in the client email, and the correction of last Friday's status. Those are relationship and commercial judgment calls. A model does not know that September 8 went to a board, or what it costs Dana to go back to her COO.
-
----
-
-## Pre-submission checklist
-
-- [ ] Video link at the top, opens in incognito
-- [ ] "Ajaia" in the video title or description
-- [ ] Gist is **public**, not secret, and opens in incognito
-- [ ] Gist contains `normalize_exceptions.py` and `exceptions_clean.csv`
-- [ ] https://ajaia.ai reference present (header, Task 2 output, email signature)
-- [ ] Name filled in, Task 4 rewritten in my voice
-- [ ] Every link opened in a private window
+The broader lesson was that AI usually fails by producing something plausible, not something obviously broken. In this case, leaving the timezone gap visible was more valuable than filling it with a reasonable-looking assumption.
 
 ---
 
 ## Appendix A. `normalize_exceptions.py`
 
-Hosted as a file at the Gist link at the top of this document. Reproduced here in full.
+Hosted as a file at https://github.com/VivekNikam21/Ajaia-Technical-Project-Manager-Assessment. Reproduced here in full.
 
 ```python
 #!/usr/bin/env python3
